@@ -25,11 +25,11 @@
 					</header>
 					<li class="{{ $class['subjects'] }}">
 						<i class="material-icons">supervisor_account</i>
-						{{ link_to('/', 'Materias', ['class' => 'nav-link']) }}
+						
 					</li>
 					<li class="{{ $class['questions'] }}">
 						<i class="material-icons">playlist_play</i>
-						{{ link_to('/questions', 'Preguntas', ['class' => 'nav-link']) }}
+						
 				</ul>
 			</aside>
 
