@@ -19,15 +19,14 @@
 						{!! csrf_field() !!}
 						<div class="row">
 							<div class="input-field col s10 offset-s1">
-								<i class="material-icons prefix">account_circle</i>
+								<i class="material-icons prefix">account_balance</i>
 								<input id="icon_prefix" type="text" name="name">
 								<label for="icon_prefix">Nombre</label>
 							</div>
 						</div>
 						<div class="row">
 							<div class="input-field col s10 offset-s1">
-								<i class="material-icons prefix">account_circle</i>
-								<input id="icon_prefix" type="text" name="description">
+								<textarea id="icon_prefix" class="materialize-textarea" name="description"></textarea>
 								<label for="icon_prefix">Descripción</label>
 							</div>
 						</div>

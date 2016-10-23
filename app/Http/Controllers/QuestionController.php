@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Question;
+use App\Subject;
 
 use DB;
 use Response;
@@ -14,16 +15,120 @@ use Validator;
 class QuestionController extends Controller
 {
     public function all() {
-		//Code...
+
+		$questions = DB::table('questions')
+					->select('id', 'subject', 'time', 'complexity', 'statement', 'opA','opB', 'opC', 'opD', 'opOK')
+					->orderBy('subject', 'asc')
+					->orderBy('complexity', 'asc')
+					->get();
+
+		return Response::json($questions);
+
 	}
 
 	public function show() {
 
-		return view('questions');
+		$questions = Question::orderBy('subject', 'asc')
+								->orderBy('complexity', 'asc')
+								->get();
+
+		$subjects = Subject::select('name')
+					->orderBy('name', 'asc')
+					->get();
+
+		$array = array();
+		foreach ($subjects as $subject) {
+			$array[$subject->name] = $subject->name;
+		}
+
+
+		$class = [
+			'subjects'		=>	'',
+			'questions'		=>	'activeli'
+		];
+
+		return view('questions', [
+			'questions'	=> $questions,
+			'subjects'	=> $array,
+			'class'		=> $class
+		]);
+
 	}
 
 	public function store(Request $request) {
-		//Code...
+
+		$validator = Validator::make($request->all(), [
+			'subject'	=> 'required',
+			'complexity'=> 'required',
+			'statement'	=> 'required',
+			'opA'		=> 'required',
+			'opB'		=> 'required',
+			'opC'		=> 'required',
+			'opD'		=> 'required',
+			'opOK'		=> 'required'
+		]);
+
+		$class = [
+			'subjects'		=>	'',
+			'questions'		=>	'activeli'
+		];
+
+		if ($validator->fails()) {
+
+			$questions = Question::orderBy('subject', 'asc')
+								->orderBy('complexity', 'asc')
+								->get();
+
+			$subjects = DB::table('subjects')
+						->select('name')
+						->orderBy('name', 'asc')
+						->get();
+
+			return redirect()->action('QuestionController@show', [
+					'questions'	=> $questions,
+					'subjects'	=> $subjects,
+					'class'		=> $class
+			])
+			->withErrors($validator->errors());
+		}
+
+		if ($request->input('complexity') == 1) {
+			$time = 30;
+		} else {
+			if ($request->input('complexity') == 2) {
+				$time = 60;
+			} else {
+				$time = 90;
+			}
+		}
+
+		$question = new Question;
+		$question->subject = $request->input('subject');
+		$question->time = $time;
+		$question->complexity = $request->input('complexity');
+		$question->statement = $request->input('statement');
+		$question->opA = $request->input('opA');
+		$question->opB = $request->input('opB');
+		$question->opC = $request->input('opC');
+		$question->opD = $request->input('opD');
+		$question->opOK = $request->input('opOK');
+		$question->save();
+
+		$questions = Question::orderBy('subject', 'asc')
+								->orderBy('complexity', 'asc')
+								->get();
+
+		$subjects = DB::table('subjects')
+					->select('name')
+					->orderBy('name', 'asc')
+					->get();
+
+		return redirect()->action('QuestionController@show', [
+				'questions' => $questions,
+				'subjects' => $subjects,
+				'class' => $class
+		]);
+
 	}
 
 	public function delete($id){
@@ -35,6 +140,15 @@ class QuestionController extends Controller
 	}
 
 	public function questionsBySubject($subject) {
-		//Code...
+
+		$questions = DB::table('questions')
+					->select('id', 'subject', 'time', 'complexity', 'statement', 'opA','opB', 'opC', 'opD', 'opOK')
+					->where('subject','=', $subject)
+					->orderBy('complexity', 'asc')
+					->get();
+
+		return Response::json($questions);
+
 	}
+
 }

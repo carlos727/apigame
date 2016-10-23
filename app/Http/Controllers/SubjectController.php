@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -55,7 +56,7 @@ class SubjectController extends Controller {
 		if ($validator->fails()) {
 			$subjects = Subject::orderBy('name', 'asc')->get();
 
-			return view('subjects', [
+			return redirect()->action('SubjectController@show', [
 					'subjects' => $subjects,
 					'class' => $class
 				])
@@ -69,7 +70,7 @@ class SubjectController extends Controller {
 
 		$subjects = Subject::orderBy('name', 'asc')->get();
 
-		return Redirect::route('subjects', [
+		return redirect()->action('SubjectController@show', [
 					'subjects' => $subjects,
 					'class' => $class
 				]);
