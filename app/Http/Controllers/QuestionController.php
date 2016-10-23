@@ -5,6 +5,11 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
+use App\Question;
+
+use DB;
+use Response;
+use Validator;
 
 class QuestionController extends Controller
 {
@@ -13,7 +18,8 @@ class QuestionController extends Controller
 	}
 
 	public function show() {
-		//Code...
+
+		return view('questions');
 	}
 
 	public function store(Request $request) {
