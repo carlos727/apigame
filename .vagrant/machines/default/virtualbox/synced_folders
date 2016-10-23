@@ -1,0 +1,1 @@
+{"virtualbox":{"/home/vagrant/apigame":{"type":null,"mount_options":[],"guestpath":"/home/vagrant/apigame","hostpath":"C:/Users/carlos/LaravelsProjects/apigame","disabled":false},"/vagrant":{"guestpath":"/vagrant","hostpath":"C:/Users/carlos/LaravelsProjects/apigame","disabled":false}}}
