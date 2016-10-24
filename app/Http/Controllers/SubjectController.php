@@ -48,18 +48,10 @@ class SubjectController extends Controller {
 			'description'		=>	'required'
 		]);
 
-		$class = [
-			'subjects'		=>	'activeli',
-			'questions'		=>	''
-		];
-
 		if ($validator->fails()) {
-			$subjects = Subject::orderBy('name', 'asc')->get();
 
-			return redirect()->action('SubjectController@show', [
-					'subjects' => $subjects,
-					'class' => $class
-				])
+			return redirect()
+				->action('SubjectController@show')
 				->withErrors($validator->errors());
 		}
 
@@ -68,12 +60,7 @@ class SubjectController extends Controller {
 		$subject->description = $request->input('description');
 		$subject->save();
 
-		$subjects = Subject::orderBy('name', 'asc')->get();
-
-		return redirect()->action('SubjectController@show', [
-					'subjects' => $subjects,
-					'class' => $class
-				]);
+		return redirect()->action('SubjectController@show');
 
 	}
 

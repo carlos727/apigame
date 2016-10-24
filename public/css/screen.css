@@ -64,12 +64,6 @@ header[id^="head"] { margin-bottom:40px; }
 	color:black;
 }
 
-.tabs { overflow:hidden; }
-
-.tabs .tab { min-width:0; }
-
-.tabs .tab a { color:#cb333b; }
-
 .side-nav {
 	background-color:#cb333b;
     color:white;

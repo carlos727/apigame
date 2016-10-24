@@ -68,28 +68,11 @@ class QuestionController extends Controller
 			'opOK'		=> 'required'
 		]);
 
-		$class = [
-			'subjects'		=>	'',
-			'questions'		=>	'activeli'
-		];
-
 		if ($validator->fails()) {
 
-			$questions = Question::orderBy('subject', 'asc')
-								->orderBy('complexity', 'asc')
-								->get();
-
-			$subjects = DB::table('subjects')
-						->select('name')
-						->orderBy('name', 'asc')
-						->get();
-
-			return redirect()->action('QuestionController@show', [
-					'questions'	=> $questions,
-					'subjects'	=> $subjects,
-					'class'		=> $class
-			])
-			->withErrors($validator->errors());
+			return redirect()
+					->action('QuestionController@show')
+					->withErrors($validator->errors());
 		}
 
 		if ($request->input('complexity') == 1) {
@@ -114,20 +97,7 @@ class QuestionController extends Controller
 		$question->opOK = $request->input('opOK');
 		$question->save();
 
-		$questions = Question::orderBy('subject', 'asc')
-								->orderBy('complexity', 'asc')
-								->get();
-
-		$subjects = DB::table('subjects')
-					->select('name')
-					->orderBy('name', 'asc')
-					->get();
-
-		return redirect()->action('QuestionController@show', [
-				'questions' => $questions,
-				'subjects' => $subjects,
-				'class' => $class
-		]);
+		return redirect()->action('QuestionController@show');
 
 	}
 
